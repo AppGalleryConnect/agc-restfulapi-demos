@@ -61,17 +61,17 @@ public class AgcCloudgwApi {
     /**
      * agc-API客户端Id
      */
-    private static final String CLIENTID = "6984648*****904256";
+    private static final String CLIENTID = "771028*******56928";
 
     /**
      * agc-API客户端秘钥
      */
-    private static final String CLIENTSECRET = "65F0D9BC0606C1D435F5A*******************C2FF6F855D5EB188950";
+    private static final String CLIENTSECRET = "44E59304A2B75****************************89B2CFB0D800F2A304637";
 
     /**
      * agc-项目id
      */
-    private static final String PRODUCTID = "2587**********923";
+    private static final String PRODUCTID = "73643*******45164";
 
     /**
      * 云托管业务服务标识
@@ -106,7 +106,7 @@ public class AgcCloudgwApi {
     /**
      * 发布版本 uri
      */
-    private static final String RELEASE_PRODUCTION_VERSION = "/api/cloudhosting/web/v1/version/release/release";
+    private static final String RELEASE_PRODUCTION_VERSION = "/api/cloudhosting/web/v1/version/release";
 
     /**
      * 查询站点 uri
@@ -209,8 +209,7 @@ public class AgcCloudgwApi {
      * 说明：如果无基线版本则不需要该步骤
      */
     public static CodeResp modifySiteVersion(SiteVersion siteVersion, String authorization) throws Exception {
-        // 存在基线版本时，创建版本是异步且版本状态为 创建中；
-        // 可以多次修改
+        // 需要等待版本状态为：7 已创建；才可以修改版本
         if (siteVersion.getStatus() != 7) {
             Thread.sleep(60000);
         }
@@ -357,9 +356,10 @@ public class AgcCloudgwApi {
             String msg = response.body().string();
             throw new Exception("Failed to send the request. code is " + response.code()+", msg is " + msg);
         }
-        if (StringUtils.isBlank(response.body().string())){
+        String bodyString = response.body().string();
+        if (StringUtils.isBlank(bodyString)){
             throw new Exception("Failed to send the request, response body is empty.");
         }
-        return response.body().string();
+        return bodyString;
     }
 }

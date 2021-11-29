@@ -30,12 +30,12 @@ public class IncrementalCreateVersion {
     /**
      * 基线版本ID
      */
-    private static final String baseVersionId = "dAFwm6XBSbyv9FcP3RGHiQ";
+    private static final String baseVersionId = "SVFIUH********CeCViA";
 
     /**
      * 站点名称
      */
-    private static final String siteName = "sasaxsacom";
+    private static final String siteName = "cnper-cn*********thinkcom";
 
     /**
      * 云托管站点版本增量zip文件路径
@@ -80,6 +80,15 @@ public class IncrementalCreateVersion {
                 + mergeResult.getMessage();
             validateCode(mergeResult.getCode(), "0", errorMsg);
 
+            // 查询版本状态，需要等待版本状态为： 3 下线状态 时，才可以发布版本，具体时间根据版本文件数量和文件大小而定
+            SiteVersion version = queryVersionStatus(
+                SiteVersionReq.builder().siteId(site.getSiteId()).version(siteVersion.getVersion()).build(),
+                cloudToken);
+            if (version.getStatus() != 3) {
+                System.out.println("Finalize version failed. version status is " + version.getStatus());
+                return;
+            }
+
             // 版本发布 environment--发布环境类型：0 生产 1沙箱
             SiteVersionResp productionResult = AgcCloudgwApi.releaseSiteVersion(SiteVersionReleaseReq.builder()
                 .siteId(site.getSiteId())
@@ -90,12 +99,12 @@ public class IncrementalCreateVersion {
                 + productionResult.getMessage();
             validateCode(productionResult.getCode(), "0", errorMsg);
 
-            // 两个环境首次发布，都是异步发布。需要等到发布成功
-            SiteVersion version = queryVersionStatus(
+            // 异步发布,需要等到发布成功
+            SiteVersion releaseVersion = queryVersionStatus(
                 SiteVersionReq.builder().siteId(site.getSiteId()).version(siteVersion.getVersion()).build(),
                 cloudToken);
             errorMsg = "The version sandbox is released failed.";
-            validateCode(String.valueOf(version.getStatus()), "11", errorMsg);
+            validateCode(String.valueOf(releaseVersion.getStatus()), "11", errorMsg);
             System.out
                 .println("The version is released successfully. sandboxUrlPrefix is " + version.getSandboxUrlPrefix());
         } catch (Exception e) {
@@ -111,10 +120,10 @@ public class IncrementalCreateVersion {
     }
 
     private static SiteVersion queryVersionStatus(SiteVersionReq siteVersionReq, String cloudToken) throws Exception {
-        Thread.sleep(60000);
+        // 根据版本包大小和文件数量决定需要多长时间
+        Thread.sleep(600000);
         SiteVersionQueryResp siteVersionQueryResp = AgcCloudgwApi.querySiteVersion(siteVersionReq, cloudToken);
         SiteVersion version = CollectionUtils.extractSingleton(siteVersionQueryResp.getSiteVersionList());
         return version;
     }
-
 }
