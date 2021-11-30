@@ -27,7 +27,7 @@ public class CreateNewVersion {
     /**
      * 站点名称
      */
-    private static final String siteName = "sasaxsacom";
+    private static final String siteName = "cnper-cn-production-1018kakathinkcom";
 
     /**
      * 云托管站点版本增量zip文件路径
@@ -56,7 +56,7 @@ public class CreateNewVersion {
 
             // 获取完整版本包上传地址并上传版本包zip文件
             int code = AgcCloudgwApi.populateFilesSiteVersion(siteVersionResp.getSiteVersion(), filePath, cloudToken);
-            errorMsg = "Fail to upload version packge. code is " + code;
+            errorMsg = "Fail to upload version packge. code is " + String.valueOf(code);
             validateCode(String.valueOf(code), "200", errorMsg);
 
             // 归档版本
@@ -67,24 +67,33 @@ public class CreateNewVersion {
                 + finalizeResult.getMessage();
             validateCode(finalizeResult.getCode(), "0", errorMsg);
 
+            // 查询版本状态，需要等待版本状态为： 3 下线状态 时，才可以发布版本，具体时间根据版本文件数量和文件大小而定
+            SiteVersion version = queryVersionStatus(
+                SiteVersionReq.builder().siteId(site.getSiteId()).version(siteVersion.getVersion()).build(),
+                cloudToken);
+            if (version.getStatus() != 3) {
+                System.out.println("Finalize version failed. version status is " + String.valueOf(version.getStatus()));
+                return;
+            }
+
             // 版本发布 environment--发布环境类型：0 生产 1沙箱
             SiteVersionResp productionResult = AgcCloudgwApi.releaseSiteVersion(SiteVersionReleaseReq.builder()
                 .siteId(site.getSiteId())
                 .version(siteVersion.getVersion())
                 .environment(1)
                 .build(), cloudToken);
-            errorMsg = "Finalize version failed. code is " + productionResult.getCode() + " , msg is "
+            errorMsg = "Release version failed. code is " + productionResult.getCode() + " , msg is "
                 + productionResult.getMessage();
             validateCode(productionResult.getCode(), "0", errorMsg);
 
-            // 两个环境首次发布，都是异步发布。需要等到发布成功
-            SiteVersion version = queryVersionStatus(
+            // 异步发布,需要等到发布成功
+            SiteVersion releaseVersion = queryVersionStatus(
                 SiteVersionReq.builder().siteId(site.getSiteId()).version(siteVersion.getVersion()).build(),
                 cloudToken);
             errorMsg = "The version sandbox is released failed.";
-            validateCode(String.valueOf(version.getStatus()), "11", errorMsg);
+            validateCode(String.valueOf(releaseVersion.getStatus()), "11", errorMsg);
             System.out
-                .println("The version is released successfully. sandboxUrlPrefix is " + version.getSandboxUrlPrefix());
+                .println("The version is released successfully. sandboxUrlPrefix is " + releaseVersion.getSandboxUrlPrefix());
         } catch (Exception e) {
             e.printStackTrace();
         }

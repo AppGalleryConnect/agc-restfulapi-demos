@@ -69,7 +69,7 @@ public class IncrementalCreateVersion {
 
             // 获取增量文件版本包上传地址并上传版本包zip文件
             int code = AgcCloudgwApi.populateFilesSiteVersion(siteVersionResp.getSiteVersion(), filePath, cloudToken);
-            errorMsg = "Fail to upload version packge. code is " + code;
+            errorMsg = "Fail to upload version packge. code is " + String.valueOf(code);
             validateCode(String.valueOf(code), "200", errorMsg);
 
             // 归档版本
@@ -85,7 +85,7 @@ public class IncrementalCreateVersion {
                 SiteVersionReq.builder().siteId(site.getSiteId()).version(siteVersion.getVersion()).build(),
                 cloudToken);
             if (version.getStatus() != 3) {
-                System.out.println("Finalize version failed. version status is " + version.getStatus());
+                System.out.println("Finalize version failed. version status is " + String.valueOf(version.getStatus()));
                 return;
             }
 
@@ -95,7 +95,7 @@ public class IncrementalCreateVersion {
                 .version(siteVersion.getVersion())
                 .environment(1)
                 .build(), cloudToken);
-            errorMsg = "Finalize version failed. code is " + productionResult.getCode() + " , msg is "
+            errorMsg = "Release version failed. code is " + productionResult.getCode() + " , msg is "
                 + productionResult.getMessage();
             validateCode(productionResult.getCode(), "0", errorMsg);
 
@@ -106,7 +106,7 @@ public class IncrementalCreateVersion {
             errorMsg = "The version sandbox is released failed.";
             validateCode(String.valueOf(releaseVersion.getStatus()), "11", errorMsg);
             System.out
-                .println("The version is released successfully. sandboxUrlPrefix is " + version.getSandboxUrlPrefix());
+                .println("The version is released successfully. sandboxUrlPrefix is " + releaseVersion.getSandboxUrlPrefix());
         } catch (Exception e) {
             e.printStackTrace();
         }

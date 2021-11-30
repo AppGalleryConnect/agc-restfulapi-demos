@@ -61,17 +61,17 @@ public class AgcCloudgwApi {
     /**
      * agc-API客户端Id
      */
-    private static final String CLIENTID = "771028*******56928";
+    private static final String CLIENTID = "77102******2356928";
 
     /**
      * agc-API客户端秘钥
      */
-    private static final String CLIENTSECRET = "44E59304A2B75****************************89B2CFB0D800F2A304637";
+    private static final String CLIENTSECRET = "44E59304A2B75AFD62141A4A2**********B4D56F0089B2CFB0D800F2A304637";
 
     /**
      * agc-项目id
      */
-    private static final String PRODUCTID = "73643*******45164";
+    private static final String PRODUCTID = "7364300******845164";
 
     /**
      * 云托管业务服务标识
@@ -354,10 +354,11 @@ public class AgcCloudgwApi {
         Response response = client.newCall(request).execute();
         if (response.code() != 200) {
             String msg = response.body().string();
-            throw new Exception("Failed to send the request. code is " + response.code()+", msg is " + msg);
+            throw new Exception(
+                "Failed to send the request. code is " + String.valueOf(response.code()) + ", msg is " + msg);
         }
         String bodyString = response.body().string();
-        if (StringUtils.isBlank(bodyString)){
+        if (StringUtils.isBlank(bodyString)) {
             throw new Exception("Failed to send the request, response body is empty.");
         }
         return bodyString;
