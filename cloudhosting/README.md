@@ -4,7 +4,7 @@
 Provide an example of calling the AppGallery Connect Cloud Hosting REST APIs.
 
 ## Preparing the Environment
-Before using the demo, your server need support Java 7 and higher.
+Before using the demo, your server need support Java 8 and higher.
 
 ## Sample Code
 1. AGC CloudGW API
@@ -12,7 +12,7 @@ Before using the demo, your server need support Java 7 and higher.
 
 2. Create New Version
    Sample code: src\main\java\version\CreateNewVersion.java
-   
+
 3. Delete Hosting Version
    Sample code: src\main\java\version\DeleteHostingVersion.java
 

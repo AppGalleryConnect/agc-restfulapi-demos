@@ -13,7 +13,7 @@ import version.model.MaterialFileInfoV2;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SiteVersionLockReq {
-    // 版本号，全局唯一，自动生成
+    // 版本号
     private String version;
 
     // 站点ID

@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SiteVersionBase {
-    // 版本号，全局唯一，自动生成
+    // 版本号
     private String version;
 
     // 站点ID

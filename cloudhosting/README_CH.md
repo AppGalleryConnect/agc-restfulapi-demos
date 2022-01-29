@@ -4,7 +4,7 @@
 提供调用AppGallery Connect Cloud Hosting REST API的调用示例.
 
 ## 环境准备
-您的服务器需要支持Java7或者更高版本
+您的服务器需要支持Java8或者更高版本
 
 ## 代码样例
 1. AGC 网关API

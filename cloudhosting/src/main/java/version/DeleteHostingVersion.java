@@ -13,7 +13,7 @@ public class DeleteHostingVersion {
         try {
             // 只能删除非上线状态版本
             String cloudToken = AgcCloudgwApi.getCloudToken();
-            SiteVersionResp siteVersionResp = AgcCloudgwApi.deleteHostingVersion("gHQlPmYlRBayGQWWHeB8nQ", cloudToken);
+            SiteVersionResp siteVersionResp = AgcCloudgwApi.deleteHostingVersion("hRK8fbQoSeWZhbChpn7vtA", cloudToken);
             if (StringUtils.equals(siteVersionResp.getCode(),"0")) {
                 System.out.println("Hosting version is deleted successfully.");
             }

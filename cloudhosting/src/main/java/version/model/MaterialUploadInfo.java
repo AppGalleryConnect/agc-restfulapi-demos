@@ -18,12 +18,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MaterialUploadInfo {
 
-    // OBS上传地址
+    // 上传地址
     private String url;
 
-    // OBS上传请求方式
+    // 上传请求方式
     private String method;
 
-    // OBS上传携带请求头
+    // 上传携带请求头
     private Map<String, String> headers;
 }
