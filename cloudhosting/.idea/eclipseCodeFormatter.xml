@@ -3,9 +3,11 @@
   <component name="EclipseCodeFormatterProjectSettings">
     <option name="projectSpecificProfile">
       <ProjectSpecificProfile>
-        <option name="disabledFileTypes" value="D:/soft2/huawei.importorder" />
+        <option name="formatSeletedTextInAllFileTypes" value="false" />
         <option name="formatter" value="ECLIPSE" />
-        <option name="pathToConfigFileJava" value="D:/CodeFormatter_v4.xml" />
+        <option name="importOrderConfigFilePath" value="D:/tools/huawei.importorder" />
+        <option name="importOrderFromFile" value="true" />
+        <option name="pathToConfigFileJava" value="D:/tools/CodeFormatter_v4.xml" />
         <option name="selectedJavaProfile" value="CodeFormatter_v4" />
       </ProjectSpecificProfile>
     </option>

@@ -8,17 +8,12 @@
 
 ## 代码样例
 1. AGC 网关API
-   Sample code: src\main\java\version\AgcCloudgwApi.java
-
+   Sample code: src\main\java\hostingmanager\api
 2. 创建新版本
-   Sample code: src\main\java\version\CreateNewVersion.java
-
-3. 删除Hosting版本
-   Sample code: src\main\java\version\DeleteHostingVersion.java
-
+   Sample code: src\main\java\hostingmanager\demo\version\CreateNewVersion.java
 4. 增量创建版本
-   Sample code: src\main\java\version\IncrementalCreateVersion.java
+   Sample code: src\main\java\hostingmanager\demo\version\IncrementalCreateVersion.java
 
 
 ## 许可证
-授权许可证支持 [Apache License, version 2.0] (http://www.apache.org/licenses/LICENSE-2.0).
+授权许可证支持 [Apache License, hostingmanager 2.0] (http://www.apache.org/licenses/LICENSE-2.0).
